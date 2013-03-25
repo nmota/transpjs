@@ -1,0 +1,59 @@
+<html>
+	<head>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script type="text/javascript" src="sim-0.26.js"></script>
+	<script type="text/javascript" src="engine_test.js"></script>
+	<!-- <link rel="stylesheet" href="examples.css" type="text/css" /> -->
+	
+	<script type="text/javascript">
+	$(function () {
+		$("#run_simulation").click(function () {
+			var flight_time = parseFloat($('[name="FLIGHT_TIME"]').val());
+			var turn_time = parseFloat($('[name="TURN_TIME"]').val());
+			var simtime = parseFloat($('[name="SIMTIME"]').val());
+			var seed = parseFloat($('[name="SEED"]').val());
+			var lambda = parseFloat($('[name="LAMBDA"]').val());
+			
+			var results = trafficSimulation(flight_time, turn_time, simtime, seed,lambda);
+			var msg = "Simulation Results for ["
+								+ "Tempo de Viagem = " + flight_time
+								+ ", Tempo de Turnover = " + turn_time
+								+ ", Simulation time = " + simtime
+								+ ", Semente = " + seed
+								+ ", Média de chegada de passageiros = " + lambda
+								+ "]"
+								
+			$(".results").append(msg);
+		});
+		
+		$("#clear_result").click(function () {
+			$(".results").html('<a href="" id="clear_results">Clear</a><hr>');
+		});
+		
+	});
+	</script>
+		
+	</head>
+	<body>
+			
+		<div class="form">
+		<table>
+			<tr><td>Tempo de viagem (min): 
+				<td><input type="text" name="FLIGHT_TIME" value="35"/> </tr>
+			<tr><td>Tempo de "turnover" (min):
+				<td><input type="text" name="TURN_TIME" value="20"/> </tr>
+			<tr><td>Simulation time (min):
+				<td><input type="text" name="SIMTIME" value="240.0"/> </tr>
+			<tr><td>Semente para geração de números aleatórios:
+				<td><input type="text" name="SEED" value="10"/> </tr>
+			<tr><td>Valor médio da chegada de passageiros às aerogares (min):
+				<td><input type="text" name="LAMBDA" value="1"/> </tr>
+		</table>
+		<input type="button" value="Run Simulation" id="run_simulation"/>
+		</div>
+		
+		<div class="results">
+			<a href="" id="clear_results">Clear</a><hr>
+		</div>
+	</body>
+</html>
