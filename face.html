@@ -3,7 +3,7 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="sim-0.26.js"></script>
 	<script type="text/javascript" src="engine_test.js"></script>
-	<!-- <link rel="stylesheet" href="examples.css" type="text/css" /> -->
+	<link rel="stylesheet" href="style.css" type="text/css" />
 	
 	<script type="text/javascript">
 	$(function () {
@@ -20,7 +20,7 @@
 								+ ", Tempo de Turnover = " + turn_time
 								+ ", Simulation time = " + simtime
 								+ ", Semente = " + seed
-								+ ", Média de chegada de passageiros = " + lambda
+								+ ", Mï¿½dia de chegada de passageiros = " + lambda
 								+ "]"
 								
 			$(".results").append(msg);
@@ -44,9 +44,9 @@
 				<td><input type="text" name="TURN_TIME" value="20"/> </tr>
 			<tr><td>Simulation time (min):
 				<td><input type="text" name="SIMTIME" value="240.0"/> </tr>
-			<tr><td>Semente para geração de números aleatórios:
+			<tr><td>Semente para geraï¿½ï¿½o de nï¿½meros aleatï¿½rios:
 				<td><input type="text" name="SEED" value="10"/> </tr>
-			<tr><td>Valor médio da chegada de passageiros às aerogares (min):
+			<tr><td>Valor mï¿½dio da chegada de passageiros ï¿½s aerogares (min):
 				<td><input type="text" name="LAMBDA" value="1"/> </tr>
 		</table>
 		<input type="button" value="Run Simulation" id="run_simulation"/>
