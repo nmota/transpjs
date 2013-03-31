@@ -16,11 +16,11 @@
 			
 			var results = trafficSimulation(flight_time, turn_time, simtime, seed,lambda);
 			var msg = "Simulation Results for ["
-								+ "Tempo de Viagem = " + flight_time
-								+ ", Tempo de Turnover = " + turn_time
+								+ "travel time = " + flight_time
+								+ ", Turnover tine = " + turn_time
 								+ ", Simulation time = " + simtime
-								+ ", Semente = " + seed
-								+ ", M�dia de chegada de passageiros = " + lambda
+								+ ", Seed = " + seed
+								+ ", Average number of passengers arrival = " + lambda
 								+ "]"
 								
 			$(".results").append(msg);
@@ -38,15 +38,15 @@
 			
 		<div class="form">
 		<table>
-			<tr><td>Tempo de viagem (min): 
+			<tr><td>Travel time (min): 
 				<td><input type="text" name="FLIGHT_TIME" value="35"/> </tr>
-			<tr><td>Tempo de "turnover" (min):
+			<tr><td>Turnover time (min):
 				<td><input type="text" name="TURN_TIME" value="20"/> </tr>
 			<tr><td>Simulation time (min):
 				<td><input type="text" name="SIMTIME" value="240.0"/> </tr>
-			<tr><td>Semente para gera��o de n�meros aleat�rios:
+			<tr><td>Sedd to generate random numbers
 				<td><input type="text" name="SEED" value="10"/> </tr>
-			<tr><td>Valor m�dio da chegada de passageiros �s aerogares (min):
+			<tr><td>Average number of passengers arrival(min):
 				<td><input type="text" name="LAMBDA" value="1"/> </tr>
 		</table>
 		<input type="button" value="Run Simulation" id="run_simulation"/>
