@@ -41,7 +41,7 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 		},
 		onMessage: function (sender,message) {
 		//Receive message and schedule reply
-		document.write("Avião está no " + this.name + "<br>");
+		document.write(this.time()+" - Avião está no " + this.name + "<br>");
 		//Empty th plane
 		this.getBuffer(sender.buff,sender.buff.current());
 		//schedule new message for take off
@@ -56,19 +56,19 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 			//send start message - - deve mudar para acomodar diferentes locais de começo
 			var aMessage = "Aterrei" + Location[this.currentLocation].name;
 			this.send(aMessage,0,gCorvo);
-			document.write("Primeira aterragem no "+  Location[this.currentLocation].name + " <br>");
+			document.write(this.time()+" - Primeira aterragem no "+  Location[this.currentLocation].name + " <br>");
 		},
 		onMessage: function (sender, message) {
 			//receive messagem and procede with the take off and landing cycle
 			//take off
-			document.write(sender.name + "'s Runway clear <br>");	
-		    document.write("Mensagem recebida, over <br>");
+			document.write(this.time()+" - "+ sender.name + "'s Runway clear <br>");	
+		    document.write(this.time()+" - Mensagem recebida, over <br>");
 			//embarcar passageiros
 			passEmbarca = passDispatcher(this.buff, sender.buff);
 			this.putBuffer(this.buff,passEmbarca);
 			//Logging
-			document.write("Avião tem " + Plane1.current()+"<br>");
-			document.write("Avião está no ar <br>");
+			document.write(this.time()+" - Avião tem " + Plane1.current()+" passageiros <br>");
+			document.write(this.time()+" - Avião está no ar <br>");
 			//Tirar passageiros da Gare
 			this.getBuffer(sender.buff,passEmbarca);
 			//landing procedure
@@ -77,13 +77,14 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 			this.send(aMessage,FLIGHT_TIME,gGare[this.currentLocation]);		
 		}
 	};	
-		
+	
+	//esta funcao gere a chegada de novos elementos ao sistema. I poupulates the system
 	var centralReservas = {
 		start: function () {
 			var nextReserv = random.exponential(LAMBDA);
 			this.putBuffer(gBuffers[0],1);
-			document.write(""+gBuffers[0].current()+"<br>");
 			this.putBuffer(gBuffers[1],1);
+			document.write(this.time()+" - "+gBuffers[0].name+" tem "+gBuffers[0].current()+" passageiros;<br> "+gBuffers[1].name+" tem " +gBuffers[1].current()+" passageiros;<br>");
 			this.setTimer(nextReserv).done(this.start);
 		}
 	};

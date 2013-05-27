@@ -78,12 +78,15 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 		}
 	};	
 		
+	// Esta funcao gere o aprecimento de novos passageiros, it populates the system
 	var centralReservas = {
 		start: function () {
 			var nextReserv = random.exponential(LAMBDA);
 			this.putBuffer(gBuffers[0],1);
 			document.write(""+gBuffers[0].current()+"<br>");
 			this.putBuffer(gBuffers[1],1);
+			document.write(""+gBuffers[0].name+"tem"+gBuffers[0].current()+"<br>"
+							+gBuffers[1].name+"tem"+gBuffers[1].current()+"<br>");
 			this.setTimer(nextReserv).done(this.start);
 		}
 	};
