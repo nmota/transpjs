@@ -1,1 +1,12 @@
-//stylessheet
+div.col1 {
+	float: left;
+	width: 33%;
+}
+div.col2 {
+	float: left;
+	width: 33%;
+}
+div.col3 {
+	float: left;
+	width: 33%;
+}
