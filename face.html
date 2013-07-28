@@ -1,82 +1,59 @@
-<html>
+﻿<html>
 	<head>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="sim-0.26.js"></script>
 	<script type="text/javascript" src="engine_dev.js"></script>
 	<link rel="stylesheet" href="style.css" type="text/css" />
 	
-	<script type="text/javascript">
-	$(function () {
-		$("#run_simulation").click(function () {
-			var flight_time = parseFloat($('[name="FLIGHT_TIME"]').val());
-			var turn_time = parseFloat($('[name="TURN_TIME"]').val());
-			var simtime = parseFloat($('[name="SIMTIME"]').val());
-			var seed = parseFloat($('[name="SEED"]').val());
-			var lambda = parseFloat($('[name="LAMBDA"]').val());
-			
-			var results = trafficSimulation(flight_time, turn_time, simtime, seed,lambda);
-			var msg = "Simulation Results for ["
-								+ "travel time = " + flight_time
-								+ ", Turnover tine = " + turn_time
-								+ ", Simulation time = " + simtime
-								+ ", Seed = " + seed
-								+ ", Average number of passengers arrival = " + lambda
-								+ "]"
-								
-			$(".results").append(msg);
-		});
-		
-		$("#clear_result").click(function () {
-			$(".results").html('<a href="" id="clear_results">Clear</a><hr>');
-		});
-		
-	});
-	</script>
-		
+	<script type="text/javascript" src ="structure.js"></script>
+	
 	</head>
-	<body>
-			
+	<body>	
 		<div class="form">
 			</div>
 			<div class="col1">
+			<h3>Entities</h3>
 			<div class="entities">
 			<table>
-				<tr><td>Travel time (min): 
-					<td><input type="text" name="FLIGHT_TIME" value="35"/> </tr>
-				<tr><td>Turnover time (min):
-					<td><input type="text" name="TURN_TIME" value="20"/> </tr>
+				<tr><td>Nome 
+					<td><input id="inText" type="text" name="NAME" value="ilha?"/> </tr>
 				<tr><td>Rate of passengers arrival(pass/min):
-					<td><input type="text" name="LAMBDA" value="1"/> </tr>
+					<td><input id="inText" type="text" name="LAMBDA" value="1"/> </tr>
 			</table>
+			<input type="button" value="Add an entity" id="add_entity" onclick="addNew('.entities')"/>
 			</div>
 		</div>
 		<div class="col2">
+		<h3>Actors</h3>
 			<div class="actors">
 			<table>
+				<tr><td>Name: 
+					<td><input id="inText" type="text" name="NAME_ENTITY" value="Q200"/> </tr>
 				<tr><td>Travel time (min): 
-					<td><input type="text" name="FLIGHT_TIME" value="35"/> </tr>
+					<td><input id="inText" type="text" name="FLIGHT_TIME" value="35"/> </tr>
 				<tr><td>Turnover time (min):
-					<td><input type="text" name="TURN_TIME" value="20"/> </tr>
+					<td><input id="inText" type="text" name="TURN_TIME" value="20"/> </tr>
 				<tr><td>Average speed (m/s):
-					<td><input type="text" name="SPEED" value="30"/> </tr>
+					<td><input id="inText" type="text" name="SPEED" value="30"/> </tr>
 				<tr><td>Capaciy 
-					<td><input type="text" name="CAPACITY" value="35"/> </tr>
+					<td><input id="inText" type="text" name="CAPACITY" value="35"/> </tr>
 				<tr><td>Average cost(&#8364/km/pass):
-					<td><input type="text" name="COST" value="1"/> </tr>
+					<td><input id="inText" type="text" name="COST" value="1"/> </tr>				
 			</table>
+			<input  type="button" value="Add an actor" id="add_actor" onclick="addNew('.actors')"/>
 			</div>
 		</div>
 		<div class="col3">
+		<h3>Simulation Options</h3>
 			<div class="simparam">
 			<table>
 				<tr><td>Simulation time (min):
-					<td><input type="text" name="SIMTIME" value="240.0"/> </tr>
+					<td><input id="inText" type="text" name="SIMTIME" value="240.0"/> </tr>
 				<tr><td>Seed to generate random numbers
-					<td><input type="text" name="SEED" value="10"/> </tr>
+					<td><input id="inText" type="text" name="SEED" value="10"/> </tr>
 			</table>
-			<input type="button" value="Run Simulation" id="run_simulation"/>
-		</div>
-		</div>
+			<input id="runButton" type="button" value="Run Simulation" id="run_simulation" onclick="RunSimulation()"/>
+			</div>
 		</div>
 		<div class="results">
 			<a href="" id="clear_results">Clear</a><hr>
