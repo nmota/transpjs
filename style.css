@@ -9,15 +9,15 @@ h3 {
  font-family:Helvetica;
  font-size:10px;
  }
-div.col1 {
+.col1 {
 	float: left;
 	width: 33%;
 }
-div.col2 {
+.col2 {
 	float: left;
 	width: 33%;
 }
-div.col3 {
+.col3 {
 	float: left;
 	width:33%;
 }

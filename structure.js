@@ -12,14 +12,14 @@ function RunSimulation() {
 						+ ", Simulation time = " + simtime
 						+ ", Seed = " + seed
 						+ ", Average number of passengers arrival = " + lambda
-						+ "]"	
+						+ "]";	
 	$(".results").append(msg);
-};
+}
 
 function clearResults() {
 	$(".results").html('<a href="" id="clear_results">Clear</a><hr>');
-};
+}
 
 function addNew(a) {
-	$(a).children("table:first").clone().attr('prependTo(a);
-};
+	$(a).children("table:first").clone().attr('prependTo(a));
+}

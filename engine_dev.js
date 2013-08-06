@@ -2,48 +2,51 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 	var sim = new Sim();
 	var stats = new Sim.Population();
 	
-	// Estrutura eventual para um sistemas de eventos em vez de mensagens usado agora para manter registo da localização do avião
+	// Struture to a possible event based sistem instead of messages to book keep vessels locations
 	var Location = ["Corvo",
 					"Faial"
 					];
 					
-	// Buffers array para as Gares, temporário até se mudar a lógica do passenger dispatcher				
-	var gBuffers = new Array();
+	// Buffers array to Gares, until we change the logic of passenger dispatcher				
+	var gBuffers = [];
 	
-	//Necessário para a lógica atual de horário, a eliminar
-	var gGare = new Array();
+	//Needed to the current logic of schedules
+    var gGare = [];
 	
-	//Buffers das Gares no final deverão existir 72 buffers destes..
+	//Gateway Buffers, aat the end there should be n*(n-1)....
 	var Gare1 = new Sim.Buffer("Gare do Corvo",1000);
 	var Gare2 = new Sim.Buffer("Gare do Faial",1500);
 	
-	// Buffers array para as Gares, temporário até se mudar a lógica do passenger dispatcher
+	//Gateway Buffers array, until we change the logic of passenger dispatcher
 	gBuffers[0]=Gare1;
 	gBuffers[1]=Gare2;
 	
-	// Buffer do Avião -- no final cada avião deverá ter 9 buffers....
+	// Vessel Buffers -- at the end each vessel shoud have at least 8 buffers...or maybe and proprety array with 8 length
 	var Plane1 = new Sim.Buffer("Q200_1",30);
 	
-	// Variiável aleatória;
+	// Random variable
 	var random = new Random(SEED);
 	
-	//Controlo da prioritização de transporte -- esta função deverá aumentar de complexidade muito rapidamente	
+	//Function to control the logic of passenger travel it should model the passenger decision process based on known stats	
 	function passDispatcher (plane_BUFFER,gare_BUFFER) {
 		var nPassTravel = 0;
 		nPassTravel = Math.min(plane_BUFFER.size()-plane_BUFFER.current(),gare_BUFFER.current());
 		return nPassTravel;
-	};	
+	}	
 	
-	//Entidade das Gares
+	//Gateways entities
 	var Gare = {
 		start: function () {
-		//document.write("Gare do " +this.name+" está aberta <br>");
+		//document.write("Gare do " +this.name+" estÃ¡ aberta <br>");
 		},
 		onMessage: function (sender,message) {
+        
 		//Receive message and schedule reply
-		document.write(this.time()+" - Avião está no " + this.name + "<br>");
+		document.write(this.time()+" - AviÃ£o estÃ¡ no " + this.name + "<br>");
+        
 		//Empty th plane
 		this.getBuffer(sender.buff,sender.buff.current());
+        
 		//schedule new message for take off
 		var newMessage = "Runway clear <br>";
 		this.send(newMessage,TURN_TIME,sender);
@@ -51,26 +54,30 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 	};
 		
 	var Q200 = {
-		currentLocation: 0, //the location of the plane 
+		currentLocation: 0, //the location of the vessel
 		start: function () {
-			//send start message - - deve mudar para acomodar diferentes locais de começo
+			//send start message - - this logic shoud change to support diferent starting points
 			var aMessage = "Aterrei" + Location[this.currentLocation].name;
 			this.send(aMessage,0,gCorvo);
 			document.write(this.time()+" - Primeira aterragem no "+  Location[this.currentLocation].name + " <br>");
 		},
 		onMessage: function (sender, message) {
-			//receive messagem and procede with the take off and landing cycle
+			//receive message and procede with the take off and landing cycle
 			//take off
 			document.write(this.time()+" - "+ sender.name + "'s Runway clear <br>");	
 		    document.write(this.time()+" - Mensagem recebida, over <br>");
-			//embarcar passageiros
-			passEmbarca = passDispatcher(this.buff, sender.buff);
+            
+			//boarding passengers
+			var passEmbarca = passDispatcher(this.buff, sender.buff);
 			this.putBuffer(this.buff,passEmbarca);
+            
 			//Logging
-			document.write(this.time()+" - Avião tem " + Plane1.current()+" passageiros <br>");
-			document.write(this.time()+" - Avião está no ar <br>");
+			document.write(this.time()+" - AviÃ£o tem " + Plane1.current()+" passageiros <br>");
+			document.write(this.time()+" - AviÃ£o estÃ¡ no ar <br>");
+            
 			//Tirar passageiros da Gare
 			this.getBuffer(sender.buff,passEmbarca);
+            
 			//landing procedure
 			this.currentLocation = 1 - this.currentLocation;
 			var aMessage = "Aterrei" + Location[this.currentLocation].name;
@@ -78,7 +85,7 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 		}
 	};	
 	
-	//esta funcao gere a chegada de novos elementos ao sistema. I poupulates the system
+	//Ii poupulates the system
 	var centralReservas = {
 		start: function () {
 			var nextReserv = random.exponential(LAMBDA);
@@ -89,12 +96,12 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 		}
 	};
 
-	// Adicionar as primeiras entidade, central de resercas e Gares - Ordem é importante
-	var Reservas = sim.addEntity(centralReservas);
+	// Initiate entities, centralReservas() and entiites - important to keep the order
+    var Reservas = sim.addEntity(centralReservas);
 	var gCorvo = sim.addEntity(Gare);
 	var gFaial = sim.addEntity(Gare);
 	
-	//Extend entitys properties
+	//Extend entities properties
 	gCorvo.name = "Corvo";
 	gFaial.name = "Faial";
 	gCorvo.buff = Gare1;
@@ -103,7 +110,7 @@ function trafficSimulation (FLIGHT_TIME, TURN_TIME, SIMTIME,SEED,LAMBDA) {
 	gGare[0]=gCorvo;
 	gGare[1]=gFaial; 
 	
-	// Adicionar aviões ao sistema e extender as suas propriedades
+	// Initiate vessels and extend it's properties
 	var Q200_1 = sim.addEntity(Q200);
 	Q200_1.name ="Q200";
 	Q200_1.buff = Plane1;
